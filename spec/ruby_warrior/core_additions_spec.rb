@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe String do
-  it "should wrap text at white space when over a specific character length" do
-    "foo bar blah".hard_wrap(10).should == "foo bar\nblah"
+  it 'should wrap text at white space when over a specific character length' do
+    expect('foo bar blah'.hard_wrap(10)).to eq("foo bar\nblah")
   end
 end

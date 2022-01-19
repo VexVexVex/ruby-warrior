@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RubyWarrior::Abilities::Listen do
@@ -9,9 +11,9 @@ describe RubyWarrior::Abilities::Listen do
     @floor.add(@warrior, 0, 0)
     @listen = RubyWarrior::Abilities::Listen.new(@warrior)
   end
-  
-  it "should return an array of spaces which have units on them besides main unit" do
+
+  it 'should return an array of spaces which have units on them besides main unit' do
     @floor.add(RubyWarrior::Units::Base.new, 0, 1)
-    @listen.perform.should have(1).record
+    expect(@listen.perform).to have(1).record
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RubyWarrior::Abilities::Health do
@@ -5,9 +7,9 @@ describe RubyWarrior::Abilities::Health do
     @warrior = RubyWarrior::Units::Warrior.new
     @health = RubyWarrior::Abilities::Health.new(@warrior)
   end
-  
-  it "should return the amount of health" do
+
+  it 'should return the amount of health' do
     @warrior.health = 10
-    @health.perform.should == 10
+    expect(@health.perform).to eq(10)
   end
 end

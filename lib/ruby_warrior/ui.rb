@@ -21,7 +21,9 @@ module RubyWarrior
       
       def request(msg)
         print(msg)
-        gets.chomp
+        request = gets
+        request ||= ''
+        request.chomp
       end
       
       def ask(msg)

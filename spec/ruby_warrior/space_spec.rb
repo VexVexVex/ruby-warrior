@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RubyWarrior::Space do
@@ -6,185 +8,185 @@ describe RubyWarrior::Space do
     @floor.width = 2
     @floor.height = 3
   end
-  
-  describe "with empty space" do
+
+  describe 'with empty space' do
     before(:each) do
       @space = @floor.space(0, 0)
     end
-    
-    it "should not be enemy" do
-      @space.should_not be_enemy
+
+    it 'should not be enemy' do
+      expect(@space).not_to be_enemy
     end
-    
-    it "should not be warrior" do
-      @space.should_not be_warrior
+
+    it 'should not be warrior' do
+      expect(@space).not_to be_warrior
     end
-    
-    it "should be empty" do
-      @space.should be_empty
+
+    it 'should be empty' do
+      expect(@space).to be_empty
     end
-    
-    it "should not be wall" do
-      @space.should_not be_wall
+
+    it 'should not be wall' do
+      expect(@space).not_to be_wall
     end
-    
-    it "should not be stairs" do
-      @space.should_not be_stairs
+
+    it 'should not be stairs' do
+      expect(@space).not_to be_stairs
     end
-    
-    it "should not be captive" do
-      @space.should_not be_captive
+
+    it 'should not be captive' do
+      expect(@space).not_to be_captive
     end
-    
+
     it "should say 'nothing' as name" do
-      @space.to_s.should == 'nothing'
+      expect(@space.to_s).to eq('nothing')
     end
-    
-    it "should not be ticking" do
-      @space.should_not be_ticking
+
+    it 'should not be ticking' do
+      expect(@space).not_to be_ticking
     end
   end
-  
-  describe "out of bounds" do
+
+  describe 'out of bounds' do
     before(:each) do
       @space = @floor.space(-1, 1)
     end
-  
-    it "should be wall" do
-      @space.should be_wall
+
+    it 'should be wall' do
+      expect(@space).to be_wall
     end
-  
-    it "should not be empty" do
-      @space.should_not be_empty
+
+    it 'should not be empty' do
+      expect(@space).not_to be_empty
     end
-    
+
     it "should have name of 'wall'" do
-      @space.to_s.should == 'wall'
+      expect(@space.to_s).to eq('wall')
     end
   end
-  
-  describe "with warrior" do
+
+  describe 'with warrior' do
     before(:each) do
       warrior = RubyWarrior::Units::Warrior.new
       @floor.add(warrior, 0, 0)
       @space = @floor.space(0, 0)
     end
-    
-    it "should be warrior" do
-      @space.should be_warrior
+
+    it 'should be warrior' do
+      expect(@space).to be_warrior
     end
-    
-    it "should be player" do
-      @space.should be_warrior
+
+    it 'should be player' do
+      expect(@space).to be_warrior
     end
-    
-    it "should not be enemy" do
-      @space.should_not be_enemy
+
+    it 'should not be enemy' do
+      expect(@space).not_to be_enemy
     end
-    
-    it "should not be empty" do
-      @space.should_not be_enemy
+
+    it 'should not be empty' do
+      expect(@space).not_to be_enemy
     end
-    
-    it "should know what unit is on that space" do
-      @space.unit.should be_kind_of(RubyWarrior::Units::Warrior)
+
+    it 'should know what unit is on that space' do
+      expect(@space.unit).to be_kind_of(RubyWarrior::Units::Warrior)
     end
   end
-  
-  describe "with enemy" do
+
+  describe 'with enemy' do
     before(:each) do
       @floor.add(RubyWarrior::Units::Sludge.new, 0, 0)
       @space = @floor.space(0, 0)
     end
-    
-    it "should be enemy" do
-      @space.should be_enemy
+
+    it 'should be enemy' do
+      expect(@space).to be_enemy
     end
-    
-    it "should not be warrior" do
-      @space.should_not be_warrior
+
+    it 'should not be warrior' do
+      expect(@space).not_to be_warrior
     end
-    
-    it "should not be empty" do
-      @space.should_not be_empty
+
+    it 'should not be empty' do
+      expect(@space).not_to be_empty
     end
-    
-    it "should have name of unit" do
-      @space.to_s.should == "Sludge"
+
+    it 'should have name of unit' do
+      expect(@space.to_s).to eq('Sludge')
     end
-    
-    describe "bound" do
+
+    describe 'bound' do
       before(:each) do
         @space.unit.bind
       end
-      
-      it "should be captive" do
-        @space.should be_captive
+
+      it 'should be captive' do
+        expect(@space).to be_captive
       end
-      
-      it "should not look like enemy" do
-        @space.should_not be_enemy
+
+      it 'should not look like enemy' do
+        expect(@space).not_to be_enemy
       end
     end
   end
-  
-  describe "with captive" do
+
+  describe 'with captive' do
     before(:each) do
       @captive = RubyWarrior::Units::Captive.new
       @floor.add(@captive, 0, 0)
       @space = @floor.space(0, 0)
     end
-    
-    it "should be captive" do
-      @space.should be_captive
+
+    it 'should be captive' do
+      expect(@space).to be_captive
     end
-    
-    it "should not be enemy" do
-      @space.should_not be_enemy
+
+    it 'should not be enemy' do
+      expect(@space).not_to be_enemy
     end
-    
-    it "should be ticking if captive has time bomb" do
+
+    it 'should be ticking if captive has time bomb' do
       @captive.add_abilities :explode!
-      @space.should be_ticking
+      expect(@space).to be_ticking
     end
-    
-    it "should not be ticking if captive does not have time bomb" do
-      @space.should_not be_ticking
+
+    it 'should not be ticking if captive does not have time bomb' do
+      expect(@space).not_to be_ticking
     end
   end
-  
-  describe "with golem" do
+
+  describe 'with golem' do
     before(:each) do
       @golem = RubyWarrior::Units::Golem.new
       @floor.add(@golem, 0, 0)
       @space = @floor.space(0, 0)
     end
-    
-    it "should be golem" do
-      @space.should be_golem
+
+    it 'should be golem' do
+      expect(@space).to be_golem
     end
-    
-    it "should not be enemy" do
-      @space.should_not be_enemy
+
+    it 'should not be enemy' do
+      expect(@space).not_to be_enemy
     end
-    
-    it "should be player" do
-      @space.should be_player
+
+    it 'should be player' do
+      expect(@space).to be_player
     end
   end
-  
-  describe "at stairs" do
+
+  describe 'at stairs' do
     before(:each) do
       @floor.place_stairs(0, 0)
       @space = @floor.space(0, 0)
     end
-    
-    it "should be empty" do
-      @space.should be_empty
+
+    it 'should be empty' do
+      expect(@space).to be_empty
     end
-    
-    it "should be stairs" do
-      @space.should be_stairs
+
+    it 'should be stairs' do
+      expect(@space).to be_stairs
     end
   end
 end

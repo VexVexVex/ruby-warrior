@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RubyWarrior::Position do
@@ -9,100 +11,100 @@ describe RubyWarrior::Position do
     @floor.add(@unit, 1, 2, :north)
     @position = @unit.position
   end
-  
-  it "should rotate clockwise" do
-    @position.direction.should == :north
-    [:east, :south, :west, :north, :east].each do |dir|
+
+  it 'should rotate clockwise' do
+    expect(@position.direction).to eq(:north)
+    %i[east south west north east].each do |dir|
       @position.rotate(1)
-      @position.direction.should == dir
+      expect(@position.direction).to eq(dir)
     end
   end
-  
-  it "should rotate counterclockwise" do
-    @position.direction.should == :north
-    [:west, :south, :east, :north, :west].each do |dir|
+
+  it 'should rotate counterclockwise' do
+    expect(@position.direction).to eq(:north)
+    %i[west south east north west].each do |dir|
       @position.rotate(-1)
-      @position.direction.should == dir
+      expect(@position.direction).to eq(dir)
     end
   end
-  
-  it "should get relative space in front" do
+
+  it 'should get relative space in front' do
     unit = RubyWarrior::Units::Base.new
     @floor.add(unit, 1, 1)
-    @position.relative_space(1).should_not be_empty
+    expect(@position.relative_space(1)).not_to be_empty
   end
-  
-  it "should get relative object in front when rotated" do
+
+  it 'should get relative object in front when rotated' do
     unit = RubyWarrior::Units::Base.new
     @floor.add(unit, 2, 2)
     @position.rotate(1)
-    @position.relative_space(1).should_not be_empty
+    expect(@position.relative_space(1)).not_to be_empty
   end
-  
-  it "should get relative object diagonally" do
+
+  it 'should get relative object diagonally' do
     unit = RubyWarrior::Units::Base.new
     @floor.add(unit, 0, 1)
-    @position.relative_space(1, -1).should_not be_empty
+    expect(@position.relative_space(1, -1)).not_to be_empty
   end
-  
-  it "should get relative object diagonally when rotating" do
+
+  it 'should get relative object diagonally when rotating' do
     unit = RubyWarrior::Units::Base.new
     @floor.add(unit, 0, 1)
     @position.rotate(2)
-    @position.relative_space(-1, 1).should_not be_empty
+    expect(@position.relative_space(-1, 1)).not_to be_empty
   end
-  
-  it "should move object on floor relatively" do
-    @floor.get(1, 2).should == @unit
+
+  it 'should move object on floor relatively' do
+    expect(@floor.get(1, 2)).to eq(@unit)
     @position.move(-1, 2)
-    @floor.get(1, 2).should be_nil
-    @floor.get(3, 3).should == @unit
+    expect(@floor.get(1, 2)).to be_nil
+    expect(@floor.get(3, 3)).to eq(@unit)
     @position.rotate(1)
     @position.move(-1)
-    @floor.get(3, 3).should be_nil
-    @floor.get(2, 3).should == @unit
+    expect(@floor.get(3, 3)).to be_nil
+    expect(@floor.get(2, 3)).to eq(@unit)
   end
-  
-  it "should return distance from stairs as 0 when on stairs" do
+
+  it 'should return distance from stairs as 0 when on stairs' do
     @floor.place_stairs(1, 2)
-    @position.distance_from_stairs.should == 0
+    expect(@position.distance_from_stairs).to eq(0)
   end
-  
-  it "should return distance from stairs in both directions" do
+
+  it 'should return distance from stairs in both directions' do
     @floor.place_stairs(0, 3)
-    @position.distance_from_stairs.should == 2
+    expect(@position.distance_from_stairs).to eq(2)
   end
-  
-  it "should return relative direction of stairs" do
+
+  it 'should return relative direction of stairs' do
     @floor.place_stairs(0, 0)
-    @position.relative_direction_of_stairs.should == :forward
+    expect(@position.relative_direction_of_stairs).to eq(:forward)
   end
-  
-  it "should return relative direction of given space" do
-    @position.relative_direction_of(@floor.space(5, 3)).should == :right
+
+  it 'should return relative direction of given space' do
+    expect(@position.relative_direction_of(@floor.space(5, 3))).to eq(:right)
     @position.rotate 1
-    @position.relative_direction_of(@floor.space(1, 4)).should == :right
+    expect(@position.relative_direction_of(@floor.space(1, 4))).to eq(:right)
   end
-  
-  it "should be able to determine relative direction" do
-    @position.relative_direction(:north).should == :forward
-    @position.relative_direction(:south).should == :backward
-    @position.relative_direction(:west).should == :left
-    @position.relative_direction(:east).should == :right
+
+  it 'should be able to determine relative direction' do
+    expect(@position.relative_direction(:north)).to eq(:forward)
+    expect(@position.relative_direction(:south)).to eq(:backward)
+    expect(@position.relative_direction(:west)).to eq(:left)
+    expect(@position.relative_direction(:east)).to eq(:right)
     @position.rotate 1
-    @position.relative_direction(:north).should == :left
+    expect(@position.relative_direction(:north)).to eq(:left)
     @position.rotate 1
-    @position.relative_direction(:north).should == :backward
+    expect(@position.relative_direction(:north)).to eq(:backward)
     @position.rotate 1
-    @position.relative_direction(:north).should == :right
+    expect(@position.relative_direction(:north)).to eq(:right)
   end
-  
-  it "should return a space at the same location as position" do
-    @position.space.location.should == [1, 2]
+
+  it 'should return a space at the same location as position' do
+    expect(@position.space.location).to eq([1, 2])
   end
-  
-  it "should return distance of given space" do
-    @position.distance_of(@floor.space(5, 3)).should == 5
-    @position.distance_of(@floor.space(4, 2)).should == 3
+
+  it 'should return distance of given space' do
+    expect(@position.distance_of(@floor.space(5, 3))).to eq(5)
+    expect(@position.distance_of(@floor.space(4, 2))).to eq(3)
   end
 end

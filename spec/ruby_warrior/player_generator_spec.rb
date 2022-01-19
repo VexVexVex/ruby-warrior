@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RubyWarrior::PlayerGenerator do
@@ -5,8 +7,8 @@ describe RubyWarrior::PlayerGenerator do
     @level = RubyWarrior::Level.new(RubyWarrior::Profile.new, 15)
     @generator = RubyWarrior::PlayerGenerator.new(@level)
   end
-  
-  it "should know templates path" do
-    @generator.templates_path.should == File.expand_path("../../../templates", __FILE__)
+
+  it 'should know templates path' do
+    expect(@generator.templates_path).to eq(File.expand_path('../../../templates', __FILE__))
   end
 end
